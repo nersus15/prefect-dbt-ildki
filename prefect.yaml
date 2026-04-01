@@ -11,7 +11,10 @@ pull:
 # Step 2: Define the execution environment
 deployments:
 - name: ildki-dbt-deployment
-  entrypoint: dbt_runner.py:idlki_dbt_flow
+  entrypoint: dbt_runner.py:general_dbt_runner
+  schedule:
+    cron: "*/5 * * * *"   # setiap 5 menit
+    timezone: "Asia/Jakarta"
   work_pool:
     name: ildki-dbt-pool  # Must match the pool created in Prefect UI
     job_variables:

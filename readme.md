@@ -17,7 +17,7 @@ Proyek ini menggunakan pemisahan ketat antara **Infrastruktur** (Python/K8s) dan
 ├── prefect.yaml          # Konfigurasi Deployment Prefect (Jadwal & Resource K8s)
 ├── run_dbt.py            # Entrypoint Python (General Runner - JANGAN DIUBAH)
 ├── .dockerignore         # Mencegah file sampah masuk ke container K8s
-└── dbt_project/          # FOLDER UTAMA UNTUK PROGRAMMER SQL
+└── dbt/          # FOLDER UTAMA UNTUK PROGRAMMER SQL
     ├── dbt_project.yml   # Konfigurasi utama dbt (Nama Project, Folder Model)
     ├── profiles.yml      # Konfigurasi koneksi ke StarRocks (Host, User, Pass)
     ├── packages.yml      # Library tambahan dbt
