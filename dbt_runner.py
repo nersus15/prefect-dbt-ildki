@@ -23,5 +23,13 @@ def general_dbt_runner(dbt_command: str = "build"):
 
     result = runner.invoke(dbt_command.split())
 
+    if not result.success:
+        print("dbt run failed")
+        # You can inspect specific errors in result.exception if it crashed
+        if result.exception:
+            raise result.exception
+    else:
+        print("dbt run completed successfully (or found nothing to do)")
+
     if result.return_code != 0:
         raise Exception("dbt command failed")
