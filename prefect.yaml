@@ -20,6 +20,7 @@ deployments:
     job_variables:
       namespace: prefect-dbt
       image: "fathur15/dbt:latest"
+      finished_job_ttl: 10
       # These limits ensure it doesn't starve your other apps
       cpu_limit: "1"
       memory_limit: "2Gi"
