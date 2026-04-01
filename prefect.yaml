@@ -5,7 +5,7 @@ prefect-version: ">=3.0.0"
 # Step 1: Pull code into the temporary K8s pod
 pull:
 - prefect.deployments.steps.git_clone:
-    repository: "{{ prefect.blocks.github_repository.ildki-repo }}"
+    repository: "{{ prefect.blocks.github-repository.ildki-repo }}"
     branch: main
 
 # Step 2: Define the execution environment
