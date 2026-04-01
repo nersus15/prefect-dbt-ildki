@@ -7,7 +7,7 @@ pull:
 - prefect.deployments.steps.git_clone:
     repository: "{{ prefect.blocks.github-repository.ildki-repo.repository_url }}"
     branch: main
-    credentials: "{{ prefect.blocks.github-repository.ildki-repo }}"
+    credentials: "{{ prefect.blocks.github-repository.ildki-repo.credentials }}"
 
 # Step 2: Define the execution environment
 deployments:
