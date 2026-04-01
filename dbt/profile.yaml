@@ -1,2 +1,12 @@
 # StarRocks connection
 # This profile is used to connect to the StarRocks database. It includes the necessary credentials and connection details.
+starrocks_db:
+  target: prod
+  outputs:
+    prod:
+      type: starrocks
+      host: "{{ env_var('STARROCKS_HOST') }}"
+      port: 9030
+      schema: analytics
+      username: "{{ env_var('STARROCKS_USER') }}"
+      password: "{{ env_var('STARROCKS_PASS') }}"

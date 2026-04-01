@@ -1,1 +1,32 @@
 # The Deployment configuration file for Prefect. This file defines the deployment of the Prefect Flow, including its schedule and parameters.
+name: starrocks-pipeline
+prefect-version: ">=3.0.0"
+
+# Step 1: Pull code into the temporary K8s pod
+pull:
+- prefect.deployments.steps.git_clone:
+    repository: "{{ prefect.blocks.github.ildki-repo }}"
+    branch: main
+
+# Step 2: Define the execution environment
+deployments:
+- name: ildki-dbt-deployment
+  entrypoint: dbt_runner.py:idlki_dbt_flow
+  work_pool:
+    name: ildki-dbt-pool  # Must match the pool created in Prefect UI
+    job_variables:
+      image: "fathur15/dbt:latest"
+      # These limits ensure it doesn't starve your other apps
+      cpu_limit: "1"
+      memory_limit: "2Gi"
+      env:
+        STARROCKS_HOST: "kube-starrocks-fe-service.starrocks.svc.cluster.local"
+        STARROCKS_USER: "{{ prefect.blocks.secret.starrocks-user }}"
+        STARROCKS_PASS: "{{ prefect.blocks.secret.starrocks-pass }}"
+        HTTP_PROXY: "http://10.15.3.21:80/" 
+        HTTPS_PROXY: "http://10.15.3.21:80/"
+        http_proxy: "http://10.15.3.21:80/"
+        https_proxy: "http://10.15.3.21:80/"
+        no_proxy: "127.0.0.1,localhost,10.43.0.1,kubernetes.default.svc,.svc,.cluster.local,10.42.0.0/16,10.43.0.0/16"
+        NO_PROXY: "127.0.0.1,localhost,10.43.0.1,kubernetes.default.svc,.svc,.cluster.local,10.42.0.0/16,10.43.0.0/16"  # Bypass proxy for internal service
+
