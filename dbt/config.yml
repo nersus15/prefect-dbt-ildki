@@ -1,0 +1,36 @@
+# Main DBT CONFIG file
+# This file is used to configure the DBT project and its dependencies
+
+name: 'ildki_transformations'
+version: '1.0.0'
+config-version: 2
+
+# This name must match the profile name in your profiles.yml
+profile: 'starrocks_db'
+# These define where dbt looks for files
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+# Configuring models
+# In StarRocks, we often want to specify the engine or partitioning
+models:
+  ildki_transformations:
+    # Everything in the 'staging' folder will be Views by default
+    staging:
+      +materialized: view
+    
+    # Everything in the 'marts' folder will be Tables in StarRocks
+    marts:
+      +materialized: table
+      +engine: 'OLAP' # StarRocks default engine
+      # You can add StarRocks specific configs here:
+      # +table_type: 'PRIMARY_KEY' 
