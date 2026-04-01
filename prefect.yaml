@@ -18,6 +18,7 @@ deployments:
   work_pool:
     name: ildki-dbt-pool  # Must match the pool created in Prefect UI
     job_variables:
+      namespace: prefect-dbt
       image: "fathur15/dbt:latest"
       # These limits ensure it doesn't starve your other apps
       cpu_limit: "1"
