@@ -7,6 +7,6 @@ starrocks_db:
       type: starrocks
       host: "{{ env_var('STARROCKS_HOST') }}"
       port: 9030
-      schema: analytics
+      schema: "{{ env_var('STARROCKS_DB') }}"
       username: "{{ env_var('STARROCKS_USER') }}"
       password: "{{ env_var('STARROCKS_PASS') }}"
