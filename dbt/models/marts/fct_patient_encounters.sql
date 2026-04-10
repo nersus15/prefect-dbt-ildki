@@ -33,7 +33,11 @@ SELECT
     e.class_code,
     p.gender,
     -- Hitung Umur saat kunjungan
-    datediff('year', p.birth_date, e.encounter_date) AS patient_age,
+    timestampdiff(
+        YEAR,
+        str_to_date(p.birth_date, '%Y-%m-%d'),
+        e.encounter_date
+    ) AS patient_age,
     c.icd10_code,
     c.diagnosis_name,
     1 AS total_visits -- Helper untuk agregasi sum()
