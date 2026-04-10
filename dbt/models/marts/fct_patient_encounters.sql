@@ -2,7 +2,7 @@
     materialized='table',
     engine='OLAP',
     primary_key='encounter_id',
-    distributed_by='HASH(encounter_id)'
+    distributed_by=['encounter_id']
 ) }}
 
 WITH encounters AS (
