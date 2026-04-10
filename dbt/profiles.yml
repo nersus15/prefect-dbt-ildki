@@ -6,7 +6,7 @@ starrocks_db:
     prod:
       type: starrocks
       host: "{{ env_var('STARROCKS_HOST') }}"
-      port: 9030
-      schema: "{{ env_var('STARROCKS_DB') }}"
+      port: "{{ env_var('STARROCKS_PORT', 9030) }}"
+      schema: "{{ env_var('STARROCKS_DB', 'analytics_rme') }}"
       username: "{{ env_var('STARROCKS_USER') }}"
       password: "{{ env_var('STARROCKS_PASS') }}"
