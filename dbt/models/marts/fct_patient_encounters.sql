@@ -1,5 +1,5 @@
 {{ config(
-    materialized='table',
+    materialized='incremental',
     engine='OLAP',
     primary_key='encounter_id',
     distributed_by=['encounter_id']

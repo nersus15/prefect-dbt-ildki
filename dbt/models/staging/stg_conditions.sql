@@ -1,4 +1,4 @@
-{{ config(materialized='table', alias='stg_conditions') }}
+{{ config(materialized='view', alias='stg_conditions') }}
 
 SELECT
     satusehat_id AS condition_id,
