@@ -11,6 +11,7 @@ def check_connectivity(runner: PrefectDbtRunner):
     logger.info("Menjalankan 'dbt debug'...")
     result = runner.invoke(["debug"])
     if not result.success:
+        logger.error(f"DBT Debug Output: {result.result}")
         raise Exception("Koneksi ke database gagal.")
 
 @task(name="DBT Dependency Validation")
@@ -66,7 +67,12 @@ def general_dbt_runner(
             selector += "+"
     elif include_deps:
         selector = "staging+"
-        
+    
+    # Print env vars untuk debugging
+    logger.info(f"Environment Variables:")
+    for key in ["STARROCKS_HOST", "STARROCKS_PORT", "STARROCKS_USER", "STARROCKS_PASSWORD", "STARROCKS_DB"]:
+        logger.info(f"{key}: {os.getenv(key)}")
+
     # Eksekusi
     check_connectivity(runner)
     validate_dependencies(runner, selector)
