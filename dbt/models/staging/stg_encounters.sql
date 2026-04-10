@@ -1,4 +1,4 @@
-{{ config(materialized='table') }}
+{{ config(materialized='view', alias='stg_encounters') }}
 
 SELECT
     satusehat_id AS encounter_id,
