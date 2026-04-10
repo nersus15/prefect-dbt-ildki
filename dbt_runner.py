@@ -40,6 +40,7 @@ def validate_dependencies(settings: PrefectDbtSettings, selector: Optional[str])
 def execute_dbt_command(settings: PrefectDbtSettings, command: str, selector: Optional[str] = None):
     logger = get_run_logger()
     runner = PrefectDbtRunner(settings=settings)
+    runner.invoke(["clean"])
     
     full_command = [command]
     if selector:
