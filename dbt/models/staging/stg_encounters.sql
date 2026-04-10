@@ -8,7 +8,9 @@ SELECT
     get_json_string(body, '$.status') AS status,
     -- Ekstraksi kelas kunjungan (misal: ambulatory, inpatient)
     get_json_string(body, '$.class.code') AS class_code,
-    created_at::DATE AS encounter_date,
+    
+    CAST(created_at AS DATE) AS encounter_date, 
+    
     created_at,
     updated_at
 FROM {{ source('ildki', 'logs__encounters') }}
