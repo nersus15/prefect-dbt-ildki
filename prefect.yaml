@@ -30,6 +30,7 @@ deployments:
         STARROCKS_USER: "{{ prefect.blocks.secret.starrocks-user }}"
         STARROCKS_PASS: "{{ prefect.blocks.secret.starrocks-pass }}"
         STARROCKS_DB: "{{ prefect.blocks.secret.starrocks-db | default('analytics_rme') }}"
+        STARROCKS_PORT: "{{ prefect.blocks.secret.starrocks-port | default('3306') }}"
         HTTP_PROXY: "http://10.15.3.21:80/" 
         HTTPS_PROXY: "http://10.15.3.21:80/"
         http_proxy: "http://10.15.3.21:80/"
