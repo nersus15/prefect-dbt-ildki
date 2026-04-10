@@ -1,7 +1,11 @@
+# Harus diperhatikan: 
+# 1. key database adalah nama catalog starrocks, bukan nama database di dalam catalog tersebut
+# 2. schema di sini adalah nama database di dalam catalog tersebut
 version: 2
 sources:
   - name: ildki
-    database: "ildki"
+    database: 'default_catalog'
+    schema: "ildki"
     tables:
       - name: logs__encounters
       - name: logs__conditions
