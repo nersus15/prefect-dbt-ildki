@@ -12,7 +12,7 @@ deployments:
 - name: ildki-dbt-deployment
   entrypoint: dbt_runner.py:general_dbt_runner
   parameters:
-    dbt_command: "build --select staging+"
+    dbt_command: "build"
   schedule:
     cron: "*/5 * * * *"   # setiap 5 menit
     timezone: "Asia/Jakarta"
