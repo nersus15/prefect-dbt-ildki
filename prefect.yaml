@@ -2,17 +2,17 @@
 name: starrocks-pipeline
 prefect-version: ">=3.0.0"
 
-# Step 1: Pull code into the temporary K8s pod
 pull:
 - prefect.deployments.steps.git_clone:
     repository: "{{ prefect.blocks.github-repository.ildki-repo.repository_url }}"
     branch: main
     credentials: "{{ prefect.blocks.github-repository.ildki-repo.credentials }}"
 
-# Step 2: Define the execution environment
 deployments:
 - name: ildki-dbt-deployment
   entrypoint: dbt_runner.py:general_dbt_runner
+  parameters:
+    dbt_command: "build --select staging+"
   schedule:
     cron: "*/5 * * * *"   # setiap 5 menit
     timezone: "Asia/Jakarta"
@@ -37,3 +37,9 @@ deployments:
         no_proxy: "127.0.0.1,localhost,10.43.0.1,kubernetes.default.svc,.svc,.cluster.local,10.42.0.0/16,10.43.0.0/16"
         NO_PROXY: "127.0.0.1,localhost,10.43.0.1,kubernetes.default.svc,.svc,.cluster.local,10.42.0.0/16,10.43.0.0/16"  # Bypass proxy for internal service
 
+
+# Hanya folder staging: run --select staging
+# Staging dan semua turunannya (downstream): run --select staging+
+# Hanya model tertentu di dalam staging: run --select staging.my_model_name
+# Menjalankan test hanya untuk staging: test --select staging
+# Build (Run + Test) hanya staging: build --select staging (Ini yang paling direkomendasikan karena dbt akan menjalankan model sekaligus memvalidasi datanya).

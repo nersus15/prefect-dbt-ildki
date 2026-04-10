@@ -1,0 +1,9 @@
+version: 2
+sources:
+  - name: ildki
+    database: "ildki"
+    tables:
+      - name: logs__encounters
+      - name: logs__conditions
+      - name: logs__patients
+      - name: logs__organizations
