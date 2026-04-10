@@ -6,8 +6,10 @@ import os
 # --- TASKS ---
 
 @task(name="DBT Connectivity Check")
-def check_connectivity(runner: PrefectDbtRunner):
+def check_connectivity(settings: PrefectDbtSettings):
     logger = get_run_logger()
+    runner = PrefectDbtRunner(settings=settings)
+
     logger.info("Menjalankan 'dbt debug'...")
     try:
         result = runner.invoke(["debug"])
@@ -20,8 +22,9 @@ def check_connectivity(runner: PrefectDbtRunner):
         raise
 
 @task(name="DBT Dependency Validation")
-def validate_dependencies(runner: PrefectDbtRunner, selector: Optional[str]):
+def validate_dependencies(settings: PrefectDbtSettings, selector: Optional[str]):
     logger = get_run_logger()
+    runner = PrefectDbtRunner(settings=settings)
     cmd = ["list"]
     if selector:
         cmd.extend(["--select", selector])
@@ -34,8 +37,10 @@ def validate_dependencies(runner: PrefectDbtRunner, selector: Optional[str]):
         raise Exception("Gagal memvalidasi dependensi.")
 
 @task(name="DBT Core Execution")
-def execute_dbt_command(runner: PrefectDbtRunner, command: str, selector: Optional[str] = None):
+def execute_dbt_command(settings: PrefectDbtSettings, command: str, selector: Optional[str] = None):
     logger = get_run_logger()
+    runner = PrefectDbtRunner(settings=settings)
+    
     full_command = [command]
     if selector:
         full_command.extend(["--select", selector])
@@ -62,7 +67,6 @@ def general_dbt_runner(
         project_dir=project_dir,
         profiles_dir=project_dir,
     )
-    runner = PrefectDbtRunner(settings=settings)
 
     # Logika Selector
     selector = None
@@ -79,8 +83,8 @@ def general_dbt_runner(
         logger.info(f"{key}: {os.getenv(key)}")
 
     # Eksekusi
-    check_connectivity(runner)
-    validate_dependencies(runner, selector)
-    execute_dbt_command(runner, dbt_command, selector)
+    check_connectivity(settings)
+    validate_dependencies(settings, selector)
+    execute_dbt_command(settings, dbt_command, selector)
 
     logger.info("Pipeline dbt selesai.")
